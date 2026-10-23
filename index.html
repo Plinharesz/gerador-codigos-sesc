@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Código SESC Brasil II - 2026</title>
+    <style>
+        :root {
+            --sesc-navy: #071f3d;
+            --sesc-blue-dark: #0b3a73;
+            --sesc-blue: #1560bd;
+            --sesc-blue-light: #2f8cff;
+            --glass-border: rgba(255, 255, 255, 0.38);
+            --glass-highlight: rgba(255, 255, 255, 0.7);
+            --text-main: #0b2447;
+            --text-soft: rgba(11, 36, 71, 0.75);
+            --field-bg: rgba(255, 255, 255, 0.14);
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            /* Fundo corporativo: gradiente linear simples em azul */
+            background: linear-gradient(160deg, var(--sesc-navy) 0%, var(--sesc-blue-dark) 50%, var(--sesc-blue) 100%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            padding: 34px 30px 30px;
+            border-radius: 28px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08));
+            -webkit-backdrop-filter: blur(24px) saturate(160%);
+            backdrop-filter: blur(24px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            box-shadow:
+                0 24px 60px rgba(2, 12, 30, 0.45),
+                0 4px 14px rgba(2, 12, 30, 0.25),
+                inset 0 1.5px 0 var(--glass-highlight),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+                inset 1px 0 0 rgba(255, 255, 255, 0.22);
+            overflow: hidden;
+        }
+
+        /* Reflexo diagonal sobre o vidro */
+        .container::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 38%);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+        .container > * { position: relative; }
+
+        h2 {
+            text-align: center;
+            color: #fff;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 26px;
+            text-shadow: 0 2px 12px rgba(2, 12, 30, 0.4);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin: 0 0 7px 4px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.01em;
+            text-shadow: 0 1px 6px rgba(2, 12, 30, 0.35);
+        }
+
+        select {
+            width: 100%;
+            padding: 13px 44px 13px 16px;
+            font-family: inherit;
+            font-size: 16px;
+            color: #fff;
+            background-color: var(--field-bg);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1.5l6 6 6-6' stroke='%23ffffff' stroke-opacity='.85' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            -webkit-appearance: none;
+            appearance: none;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 2px 8px rgba(2, 12, 30, 0.2);
+            cursor: pointer;
+            transition: background-color 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+        }
+        select:hover {
+            background-color: rgba(255, 255, 255, 0.22);
+        }
+        select:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.26);
+            border-color: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 0 0 4px rgba(47, 140, 255, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+        }
+        select option {
+            color: #0b2447;
+            background: #fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #fff;
+            background: linear-gradient(180deg, var(--sesc-blue-light) 0%, var(--sesc-blue) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow:
+                0 8px 20px rgba(2, 12, 30, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.45);
+            transition: transform 0.2s var(--ease), box-shadow 0.25s var(--ease), filter 0.25s var(--ease), background 0.25s var(--ease);
+        }
+        button:hover {
+            filter: brightness(1.08);
+            transform: translateY(-1px);
+            box-shadow:
+                0 12px 26px rgba(2, 12, 30, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+        button:active {
+            transform: scale(0.98);
+            filter: brightness(0.96);
+        }
+        button:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.7), 0 0 0 6px rgba(47, 140, 255, 0.6);
+        }
+
+        #resultado {
+            margin-top: 26px;
+            padding: 22px 20px;
+            text-align: center;
+            display: none;
+            border-radius: 22px;
+            /* Vidro mais claro para manter o código legível (verde/vermelho definidos pelo JS) */
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.7));
+            -webkit-backdrop-filter: blur(20px) saturate(150%);
+            backdrop-filter: blur(20px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow:
+                0 12px 30px rgba(2, 12, 30, 0.3),
+                inset 0 1.5px 0 rgba(255, 255, 255, 0.95);
+            animation: revelar 0.5s var(--ease);
+        }
+        @keyframes revelar {
+            from { opacity: 0; transform: translateY(10px) scale(0.97); }
+            to { opacity: 1; transform: none; }
+        }
+        #resultado p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-soft);
+        }
+
+        #codigo-gerado {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            font-variant-numeric: tabular-nums;
+            color: #1e8e3e;
+            margin: 8px 0 6px;
+            line-height: 1.15;
+        }
+
+        /* Grupo de botões lado a lado */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .btn-group button {
+            flex: 1 1 0;
+            min-width: 0;
+            margin-top: 0;
+            padding: 13px 10px;
+            font-size: 15px;
+        }
+
+        .btn-copiar {
+            color: var(--sesc-blue-dark);
+            background: rgba(21, 96, 189, 0.12);
+            border: 1px solid rgba(21, 96, 189, 0.35);
+            box-shadow: 0 4px 12px rgba(2, 12, 30, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        .btn-copiar:hover {
+            background: rgba(21, 96, 189, 0.2);
+            box-shadow: 0 8px 18px rgba(2, 12, 30, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .btn-abrir {
+            color: #fff;
+            background: linear-gradient(180deg, var(--sesc-blue-light) 0%, var(--sesc-blue) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 6px 16px rgba(21, 96, 189, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 28px 20px 22px; border-radius: 24px; }
+            #codigo-gerado { font-size: 34px; }
+        }
+        @media (max-width: 360px) {
+            .btn-group { flex-direction: column; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #resultado { animation: none; }
+            button, select { transition: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container glass-container">
+    <h2>Filtro de Provas</h2>
+
+    <div class="form-group">
+        <label for="ano">1. Ano/Série:</label>
+        <select id="ano" class="glass-select" onchange="atualizarEspecificacoes()">
+            <option value="">Selecione...</option>
+            <option value="3º Ano">3º Ano</option>
+            <option value="4º Ano">4º Ano</option>
+            <option value="5º Ano">5º Ano</option>
+            <option value="6º Ano">6º Ano</option>
+            <option value="7º Ano">7º Ano</option>
+            <option value="8º Ano">8º Ano</option>
+            <option value="9º Ano">9º Ano</option>
+            <option value="1ª Série">1ª Série</option>
+            <option value="2ª Série">2ª Série</option>
+            <option value="3ª Série">3ª Série</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="area">2. Área de Conhecimento:</label>
+        <select id="area" class="glass-select" onchange="atualizarEspecificacoes()">
+            <option value="">Selecione...</option>
+            <option value="MAT">Matemática</option>
+            <option value="LING">Linguagens</option>
+            <option value="CH">Ciências Humanas</option>
+            <option value="CN">Ciências da Natureza</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="especificacao">3. Especificação:</label>
+        <select id="especificacao" class="glass-select">
+            <option value="Normal">Normal</option>
+            <option value="Linguagem simplificada">Linguagem simplificada</option>
+            <option value="Redução de alternativa">Redução de alternativas</option>
+        </select>
+    </div>
+
+    <button class="btn-primary" onclick="buscarCodigo()">Buscar Código</button>
+
+    <div id="resultado" class="glass-result">
+        <p>Código da Prova:</p>
+        <div id="codigo-gerado">---</div>
+        <div class="btn-group">
+            <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código</button>
+            <button class="btn-abrir" onclick="abrirLink()">Abrir na Educat</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const baseDeDados = [
+        { id: "8970", ano: "3º Ano", area: "CN", espec: "Normal" },
+        { id: "8980", ano: "3º Ano", area: "CN", espec: "Linguagem simplificada" },
+        { id: "8983", ano: "3º Ano", area: "CN", espec: "Redução de alternativa" },
+        { id: "9043", ano: "3º Ano", area: "CH", espec: "Normal" },
+        { id: "9070", ano: "3º Ano", area: "CH", espec: "Linguagem simplificada" },
+        { id: "9075", ano: "3º Ano", area: "CH", espec: "Redução de alternativa" },
+        { id: "9911", ano: "3º Ano", area: "LING", espec: "Normal" },
+        { id: "10175", ano: "3º Ano", area: "LING", espec: "Linguagem simplificada" },
+        { id: "10177", ano: "3º Ano", area: "LING", espec: "Redução de alternativa" },
+        { id: "8274", ano: "3º Ano", area: "MAT", espec: "Normal" },
+        { id: "10211", ano: "3º Ano", area: "MAT", espec: "Redução de alternativa" },
+        { id: "10215", ano: "3º Ano", area: "MAT", espec: "Linguagem simplificada" },
+        
+        { id: "8299", ano: "4º Ano", area: "MAT", espec: "Normal" },
+        { id: "10130", ano: "4º Ano", area: "MAT", espec: "Redução de alternativa" },
+        { id: "10214", ano: "4º Ano", area: "MAT", espec: "Linguagem simplificada" },
+        { id: "9976", ano: "4º Ano", area: "LING", espec: "Normal" },
+        { id: "10176", ano: "4º Ano", area: "LING", espec: "Linguagem simplificada" },
+        { id: "10179", ano: "4º Ano", area: "LING", espec: "Redução de alternativa" },
+        { id: "9044", ano: "4º Ano", area: "CH", espec: "Normal" },
+        { id: "9071", ano: "4º Ano", area: "CH", espec: "Linguagem simplificada" },
+        { id: "10308", ano: "4º Ano", area: "CH", espec: "Redução de alternativa" },
+        { id: "8971", ano: "4º Ano", area: "CN", espec: "Normal" },
+        { id: "8981", ano: "4º Ano", area: "CN", espec: "Linguagem simplificada" },
+        { id: "8984", ano: "4º Ano", area: "CN", espec: "Redução de alternativa" },
+        
+        { id: "8972", ano: "5º Ano", area: "CN", espec: "Normal" },
+        { id: "8982", ano: "5º Ano", area: "CN", espec: "Linguagem simplificada" },
+        { id: "8985", ano: "5º Ano", area: "CN", espec: "Redução de alternativa" },
+        { id: "9046", ano: "5º Ano", area: "CH", espec: "Normal" },
+        { id: "9072", ano: "5º Ano", area: "CH", espec: "Linguagem simplificada" },
+        { id: "10309", ano: "5º Ano", area: "CH", espec: "Redução de alternativa" },
+        { id: "9981", ano: "5º Ano", area: "LING", espec: "Normal" },
+        { id: "10178", ano: "5º Ano", area: "LING", espec: "Linguagem simplificada" },
+        { id: "10180", ano: "5º Ano", area: "LING", espec: "Redução de alternativa" },
+        { id: "8291", ano: "5º Ano", area: "MAT", espec: "Normal" },
+        { id: "10212", ano: "5º Ano", area: "MAT", espec: "Linguagem simplificada" },
+        { id: "10213", ano: "5º Ano", area: "MAT", espec: "Redução de alternativa" },
+        
+        { id: "8399", ano: "6º Ano", area: "MAT", espec: "Normal" },
+        { id: "10080", ano: "6º Ano", area: "LING", espec: "Normal" },
+        { id: "9057", ano: "6º Ano", area: "CH", espec: "Normal" },
+        { id: "8973", ano: "6º Ano", area: "CN", espec: "Normal" },
+        
+        { id: "8974", ano: "7º Ano", area: "CN", espec: "Normal" },
+        { id: "9058", ano: "7º Ano", area: "CH", espec: "Normal" },
+        { id: "10169", ano: "7º Ano", area: "LING", espec: "Normal" },
+        { id: "8465", ano: "7º Ano", area: "MAT", espec: "Normal" },
+        
+        { id: "8308", ano: "8º Ano", area: "MAT", espec: "Normal" },
+        { id: "10170", ano: "8º Ano", area: "LING", espec: "Normal" },
+        { id: "9059", ano: "8º Ano", area: "CH", espec: "Normal" },
+        { id: "8975", ano: "8º Ano", area: "CN", espec: "Normal" },
+        
+        { id: "8976", ano: "9º Ano", area: "CN", espec: "Normal" },
+        { id: "9060", ano: "9º Ano", area: "CH", espec: "Normal" },
+        { id: "10171", ano: "9º Ano", area: "LING", espec: "Normal" },
+        { id: "8885", ano: "9º Ano", area: "MAT", espec: "Normal" },
+        
+        { id: "9148", ano: "1ª Série", area: "MAT", espec: "Normal" },
+        { id: "10172", ano: "1ª Série", area: "LING", espec: "Normal" },
+        { id: "9061", ano: "1ª Série", area: "CH", espec: "Normal" },
+        { id: "8977", ano: "1ª Série", area: "CN", espec: "Normal" },
+        
+        { id: "8978", ano: "2ª Série", area: "CN", espec: "Normal" },
+        { id: "9063", ano: "2ª Série", area: "CH", espec: "Normal" },
+        { id: "10173", ano: "2ª Série", area: "LING", espec: "Normal" },
+        { id: "9150", ano: "2ª Série", area: "MAT", espec: "Normal" },
+        
+        { id: "9151", ano: "3ª Série", area: "MAT", espec: "Normal" },
+        { id: "10174", ano: "3ª Série", area: "LING", espec: "Normal" },
+        { id: "9064", ano: "3ª Série", area: "CH", espec: "Normal" },
+        { id: "8979", ano: "3ª Série", area: "CN", espec: "Normal" }
+    ];
+
+    function atualizarEspecificacoes() {
+        const ano = document.getElementById("ano").value;
+        const area = document.getElementById("area").value;
+        const selectEspec = document.getElementById("especificacao");
+        
+        // Limpa as opções atuais
+        selectEspec.innerHTML = '';
+        
+        if (!ano || !area) {
+            // Se ainda não escolheu ano e área, mostra todas as opções por padrão
+            selectEspec.innerHTML = `
+                <option value="Normal">Normal</option>
+                <option value="Linguagem simplificada">Linguagem simplificada</option>
+                <option value="Redução de alternativa">Redução de alternativas</option>
+            `;
+            return;
+        }
+
+        // Filtra a base de dados para ver quais provas existem para essa combinação
+        const provasDisponiveis = baseDeDados.filter(p => p.ano === ano && p.area === area);
+        
+        if (provasDisponiveis.length === 0) {
+            selectEspec.innerHTML = '<option value="Normal">Normal</option>';
+            return;
+        }
+
+        // Cria apenas as opções que realmente existem na base de dados
+        provasDisponiveis.forEach(prova => {
+            const option = document.createElement("option");
+            option.value = prova.espec;
+            option.textContent = prova.espec === "Redução de alternativa" ? "Redução de alternativas" : prova.espec;
+            selectEspec.appendChild(option);
+        });
+    }
+
+    function buscarCodigo() {
+        const ano = document.getElementById("ano").value;
+        const area = document.getElementById("area").value;
+        const espec = document.getElementById("especificacao").value;
+        const resultadoDiv = document.getElementById("resultado");
+        const codigoSpan = document.getElementById("codigo-gerado");
+
+        if (!ano || !area) {
+            alert("Por favor, preencha o Ano/Série e a Área de Conhecimento.");
+            return;
+        }
+
+        const provaEncontrada = baseDeDados.find(p => p.ano === ano && p.area === area && p.espec === espec);
+
+        resultadoDiv.style.display = "block";
+
+        if (provaEncontrada) {
+            codigoSpan.textContent = provaEncontrada.id;
+            codigoSpan.style.color = "#28a745";
+        } else {
+            codigoSpan.textContent = "Nenhum código encontrado";
+            codigoSpan.style.color = "#dc3545";
+        }
+    }
+
+    function copiarCodigo() {
+        const codigoTexto = document.getElementById("codigo-gerado").textContent;
+        if (codigoTexto && codigoTexto !== "---" && !codigoTexto.includes("Nenhum")) {
+            navigator.clipboard.writeText(codigoTexto).then(() => {
+                alert("Código '" + codigoTexto + "' copiado com sucesso!");
+            }).catch(err => {
+                alert("Erro ao copiar o código: ", err);
+            });
+        } else {
+            alert("Não há um código válido para copiar!");
+        }
+    }
+
+    function abrirLink() {
+        const codigoTexto = document.getElementById("codigo-gerado").textContent.trim();
+        // Código válido = apenas dígitos (descarta "---" e "Nenhum código encontrado")
+        if (/^\d+$/.test(codigoTexto)) {
+            const urlBase = "https://adaptativo-sesc.educat.net.br/estudantes/lista_estudantes/";
+            window.open(urlBase + codigoTexto, "_blank", "noopener");
+        } else {
+            alert("Gere um código válido antes de abrir na Educat!");
+        }
+    }
+</script>
+
+</body>
+</html>
