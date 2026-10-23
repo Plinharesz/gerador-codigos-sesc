@@ -16,7 +16,7 @@ Este aplicativo foi desenvolvido para **contornar essa lentidão**. Ele permite 
 ##  Como Utilizar
 A ferramenta não requer instalação e roda diretamente no navegador.
 
-1. Acesse o link da aplicação: **[Pendente]**
+1. Acesse o link da aplicação: **https://plinharesz.github.io/gerador-codigos-sesc/**
 2. Selecione o **Ano/Série** desejado.
 3. Escolha a **Área de Conhecimento** correspondente.
 4. Defina a **Especificação** (se houver variação disponível).
